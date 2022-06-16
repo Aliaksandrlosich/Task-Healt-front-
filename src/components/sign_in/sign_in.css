@@ -1,0 +1,26 @@
+.sign-in__wrapper {
+    margin: 20vh auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30vw;
+    height: 25vw;
+}
+
+.sign-in__promo-text {
+    font-size: 20px;
+}
+
+.sign-in__register-block {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.sign-in__text-field {
+    width: 25vw;
+}
+
+.sign-in__button {
+    width: 25vw;
+}
