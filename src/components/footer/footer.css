@@ -1,5 +1,5 @@
 .footer {
-    min-height: 10vh;
+    min-height: 8vh;
     background-color: var(--primary-background-color);
     display: flex;
     justify-content: space-around;

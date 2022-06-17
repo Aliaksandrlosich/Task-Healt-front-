@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import SignIn from '../components/sign_in'
-import SignUp from '../components/sign_up'
+import SignIn from '../container/sign_in'
+import SignUp from '../container/sign_up'
 import PrivateRoute from './private_router'
 
 export default function Routs () {

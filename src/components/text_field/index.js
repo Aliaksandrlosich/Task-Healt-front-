@@ -6,16 +6,19 @@ import './text_field.css'
 
 const TextField = ({
                      label = '', classes = '', id = '', defaultValue = '', helperText = '',
-                     variant = 'standard', type = 'text', isError = false,
+                     variant = 'standard', type = 'text', name = '', isError = false,
+                     onChange = () => {},
                    }) =>
   <MuiTextField
     error={isError}
     className={classes}
     id={id}
+    name={name}
     label={label}
     defaultValue={defaultValue}
     helperText={helperText}
     type={type}
+    onChange={onChange}
     variant={variant}/>
 
 TextField.propTypes = {
@@ -26,6 +29,7 @@ TextField.propTypes = {
   helperText: PropTypes.string,
   variant: PropTypes.string,
   isError: PropTypes.bool,
+  onChange: PropTypes.func
 }
 
 export default TextField
