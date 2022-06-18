@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { useAuth } from '../../api/auth'
+
 import Button from '../../components/button'
 import TextField from '../../components/text_field'
 
@@ -17,6 +19,7 @@ const texts = {
 
 const SignIn = () => {
   const navigate = useNavigate()
+  const auth = useAuth()
   const [form, setForm] = useState({
     username: '', password: '',
   })
@@ -25,6 +28,7 @@ const SignIn = () => {
   const onChangeHandler = event => setForm({ ...form, [event.target.name]: event.target.value })
   const onLogin = event => {
     console.log(form)
+    auth.authorization({ username: form.username, password: form.password })
   }
 
   return (
@@ -34,7 +38,8 @@ const SignIn = () => {
       </p>
       <div className="sign-in__text-field-wrapper" onChange={onChangeHandler}>
         <TextField id={'sign-in-username'} label={texts.username} classes={'sign-in__text-field'} name={'username'}/>
-        <TextField id={'sign-in-password'} label={texts.password} classes={'sign-in__text-field'} name={'password'} type="password"/>
+        <TextField id={'sign-in-password'} label={texts.password} classes={'sign-in__text-field'} name={'password'}
+                   type="password"/>
       </div>
       <Button
         text={texts.signInButton}
@@ -52,7 +57,5 @@ const SignIn = () => {
     </div>
   )
 }
-
-SignIn.propTypes = {}
 
 export default SignIn
