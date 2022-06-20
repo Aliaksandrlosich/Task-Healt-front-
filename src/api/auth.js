@@ -2,24 +2,34 @@ import { useNavigate } from 'react-router-dom'
 
 import useRequest from '../hooks/request'
 
-const apiURL = 'http://localhost:3001/auth'
+const apiURL = 'http://localhost:3001/api/auth'
 const loginRout = '/login'
 const registrationRout = '/registration'
 const logoutRout = '/logout'
 let accessToken
 let userId
+let username
 
 export const useAuth = () => {
   const { request, loading } = useRequest()
   const navigate = useNavigate()
 
   const navigateToHome = () => navigate('/home')
+  const navigateToLogin = () => navigate('/login')
+
   const authorization = async ({ username, password }) => {
     try {
-      const data = await request(`${apiURL}${loginRout}`, 'POST', { username, password }, {})
-      console.log(data)
+      const response = await request(`${apiURL}${loginRout}`, 'POST', { username, password }, {})
+      const isError = !!response.error
+      if(isError) {
+        return { isError: response.error, message: '' }
+      } else {
+        saveUserId(response.userId)
+        navigateToHome()
+        return { message: '' }
+      }
     } catch (error) {
-
+      console.error('Error')
     }
   }
 
@@ -35,21 +45,19 @@ export const useAuth = () => {
         return { message: '' }
       }
     } catch (error) {
-      console.error('server Error')
+      console.error('Error')
     }
   }
 
-  const logout = async ({}) => {
+  const logout = async () => {
     try {
-      const data = await request(`${apiURL}${logoutRout}`, 'POST', {}, { header_access_token: '' })
-      console.log(data)
+      const data = await request(`${apiURL}${logoutRout}`, 'POST', {userId: getUserId()})
+      removeUserId()
+      navigateToLogin()
+
     } catch (error) {
 
     }
-  }
-
-  const saveAccessToken = (newAccessToken) => {
-    accessToken = newAccessToken
   }
 
   const saveUserId = (newUserId) => {
@@ -59,8 +67,6 @@ export const useAuth = () => {
 
   const getUserId = () => userId || localStorage.getItem('healthUserId')
 
-  const getAccessToken = () => accessToken
-
   const removeUserId = () => {
     userId = undefined
     localStorage.removeItem('healthUserId')
@@ -68,9 +74,5 @@ export const useAuth = () => {
 
   const isAuthorized = () => !!getUserId()
 
-  const removeAccessToken = () => {
-    accessToken = undefined
-  }
-
-  return { authorization, isAuthorized, registration, loading }
+  return { authorization, isAuthorized, registration, logout, loading }
 }

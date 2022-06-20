@@ -1,10 +1,25 @@
 import Button from '../../components/button'
+import { useAuth } from '../../api/auth'
+
 const texts = {
-  addButton: 'Add'
+  addButton: 'Add',
+  logoutButton: 'Logout'
 }
+
+
 const HomePage = () => {
+  const auth = useAuth()
+  const onLogout = async (event) => {
+    await auth.logout()
+  }
   return (
-    <Button text={texts.addButton}/>
+    <div>
+      <Button text={texts.addButton}/>
+      <Button
+        text={texts.logoutButton}
+        onClick={onLogout}
+      />
+    </div>
   );
 }
 

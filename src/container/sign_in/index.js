@@ -15,6 +15,11 @@ const texts = {
   password: 'password',
   signUpSuggest: 'Don\'t have user?',
   signUpButton: 'Sign Up',
+  incorrectUsernameOrPassword: 'Incorrect username or password'
+}
+
+const validationErrors = {
+  incorrectUsernameOrPassword: texts.incorrectUsernameOrPassword,
 }
 
 const SignIn = () => {
@@ -23,13 +28,25 @@ const SignIn = () => {
   const [form, setForm] = useState({
     username: '', password: '',
   })
+  const [error, setError] = useState({
+    type: undefined,
+  })
   const navigateToSignUp = () => navigate('/register')
 
   const onChangeHandler = event => setForm({ ...form, [event.target.name]: event.target.value })
-  const onLogin = event => {
-    console.log(form)
-    auth.authorization({ username: form.username, password: form.password })
+  const onLogin = async(event) => {
+    const { username, password } = form
+    if (username && password && password.length > 7 ) {
+      const result = await auth.authorization({ username, password })
+      if(result.isError) {
+        setError({ type: 'incorrectUsernameOrPassword' })
+      }
+    } else {
+      setError({ type: 'incorrectUsernameOrPassword' })
+    }
   }
+  const isErrorInput = !!error.type
+  const errorInputHelperText = validationErrors[error.type]
 
   return (
     <div className="sign-in__wrapper">
@@ -37,9 +54,19 @@ const SignIn = () => {
         {texts.promoText}
       </p>
       <div className="sign-in__text-field-wrapper" onChange={onChangeHandler}>
-        <TextField id={'sign-in-username'} label={texts.username} classes={'sign-in__text-field'} name={'username'}/>
-        <TextField id={'sign-in-password'} label={texts.password} classes={'sign-in__text-field'} name={'password'}
-                   type="password"/>
+        <TextField id={'sign-in-username'}
+                   label={texts.username}
+                   classes={'sign-in__text-field'}
+                   name={'username'}
+                   helperText={errorInputHelperText}
+                   isError={isErrorInput}/>
+        <TextField id={'sign-in-password'}
+                   label={texts.password}
+                   classes={'sign-in__text-field'}
+                   name={'password'}
+                   type="password"
+                   helperText={errorInputHelperText}
+                   isError={isErrorInput}/>
       </div>
       <Button
         text={texts.signInButton}
