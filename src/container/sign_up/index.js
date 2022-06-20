@@ -16,12 +16,16 @@ const texts = {
   signInSuggest: 'Have user?',
   signInButton: 'Sign in',
   incorrectPassword: 'The passwords don\'t match!',
+  incorrectPasswordLength: 'The password must be at least 8 letters long',
   incorrectUsername: 'Such a user is already in the system!',
+  shortUsername: 'Username is short!',
 }
 
 const validationErrors = {
   incorrectPassword: texts.incorrectPassword,
   incorrectUsername: texts.incorrectUsername,
+  incorrectPasswordLength: texts.incorrectPasswordLength,
+  shortUsername: texts.shortUsername,
 }
 
 const SignUp = () => {
@@ -36,7 +40,6 @@ const SignUp = () => {
   })
 
   const navigateToSignIn = () => navigate('/login')
-  const navigateToHome = () => navigate('/home')
 
   const onChangeHandler = event => {
     setForm({ ...form, [event.target.name]: event.target.value })
@@ -45,12 +48,14 @@ const SignUp = () => {
 
   const onRegistration = async (event) => {
     const { password, repeatPassword, username } = form
-    if (password === repeatPassword) {
+    if (password.length < 7) {
+      setError({ type: 'incorrectPasswordLength' })
+    } else if (username.length < 2) {
+      setError({ type: 'shortUsername' })
+    } else if (password === repeatPassword) {
       const result = await auth.registration({ username, password })
       if (result.isError) {
         setError({ type: 'incorrectUsername' })
-      } else {
-        navigateToHome()
       }
     } else {
       setError({ type: 'incorrectPassword' })

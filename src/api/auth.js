@@ -1,13 +1,19 @@
+import { useNavigate } from 'react-router-dom'
+
 import useRequest from '../hooks/request'
 
 const apiURL = 'http://localhost:3001/auth'
 const loginRout = '/login'
 const registrationRout = '/registration'
 const logoutRout = '/logout'
+let accessToken
+let userId
 
 export const useAuth = () => {
   const { request, loading } = useRequest()
+  const navigate = useNavigate()
 
+  const navigateToHome = () => navigate('/home')
   const authorization = async ({ username, password }) => {
     try {
       const data = await request(`${apiURL}${loginRout}`, 'POST', { username, password }, {})
@@ -19,9 +25,15 @@ export const useAuth = () => {
 
   const registration = async ({ username, password }) => {
     try {
-      const { message, refreshToken, accessToken } = await request(`${apiURL}${registrationRout}`, 'POST', { username, hash: password })
-      const isError = message === 'NOT_UNIQ_USERNAME'
-      return { isError, message: '' }
+      const response = await request(`${apiURL}${registrationRout}`, 'POST', { username, password })
+      const isError = !!response.error
+      if (isError) {
+        return { isError: response.error, message: '' }
+      } else {
+        saveUserId(response.userId)
+        navigateToHome()
+        return { message: '' }
+      }
     } catch (error) {
       console.error('server Error')
     }
@@ -36,21 +48,29 @@ export const useAuth = () => {
     }
   }
 
-  const saveRefreshToken = () => {
-
+  const saveAccessToken = (newAccessToken) => {
+    accessToken = newAccessToken
   }
 
-  const saveAccessToken = () => {
-
+  const saveUserId = (newUserId) => {
+    userId = newUserId
+    localStorage.setItem('healthUserId', newUserId)
   }
 
-  const getRefreshToken = () => {
+  const getUserId = () => userId || localStorage.getItem('healthUserId')
 
+  const getAccessToken = () => accessToken
+
+  const removeUserId = () => {
+    userId = undefined
+    localStorage.removeItem('healthUserId')
   }
 
-  const getAccessToken = () => {
+  const isAuthorized = () => !!getUserId()
 
+  const removeAccessToken = () => {
+    accessToken = undefined
   }
 
-  return { authorization, registration, loading }
+  return { authorization, isAuthorized, registration, loading }
 }
