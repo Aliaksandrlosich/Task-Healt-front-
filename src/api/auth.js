@@ -6,9 +6,7 @@ const apiURL = 'http://localhost:3001/api/auth'
 const loginRout = '/login'
 const registrationRout = '/registration'
 const logoutRout = '/logout'
-let accessToken
 let userId
-let username
 
 export const useAuth = () => {
   const { request, loading } = useRequest()
@@ -19,9 +17,9 @@ export const useAuth = () => {
 
   const authorization = async ({ username, password }) => {
     try {
-      const response = await request(`${apiURL}${loginRout}`, 'POST', { username, password }, {})
+      const response = await request(`${apiURL}${loginRout}`, 'POST', { username, password })
       const isError = !!response.error
-      if(isError) {
+      if (isError) {
         return { isError: response.error, message: '' }
       } else {
         saveUserId(response.userId)
@@ -29,7 +27,7 @@ export const useAuth = () => {
         return { message: '' }
       }
     } catch (error) {
-      console.error('Error')
+      console.error(error)
     }
   }
 
@@ -51,7 +49,7 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      const data = await request(`${apiURL}${logoutRout}`, 'POST', {userId: getUserId()})
+      const data = await request(`${apiURL}${logoutRout}`, 'POST', { userId: getUserId() })
       removeUserId()
       navigateToLogin()
 

@@ -15,7 +15,7 @@ const texts = {
   password: 'password',
   signUpSuggest: 'Don\'t have user?',
   signUpButton: 'Sign Up',
-  incorrectUsernameOrPassword: 'Incorrect username or password'
+  incorrectUsernameOrPassword: 'Incorrect username or password',
 }
 
 const validationErrors = {
@@ -34,11 +34,11 @@ const SignIn = () => {
   const navigateToSignUp = () => navigate('/register')
 
   const onChangeHandler = event => setForm({ ...form, [event.target.name]: event.target.value })
-  const onLogin = async(event) => {
+  const onLogin = async (event) => {
     const { username, password } = form
-    if (username && password && password.length > 7 ) {
+    if (username && password && password.length > 7) {
       const result = await auth.authorization({ username, password })
-      if(result.isError) {
+      if (result.isError) {
         setError({ type: 'incorrectUsernameOrPassword' })
       }
     } else {
