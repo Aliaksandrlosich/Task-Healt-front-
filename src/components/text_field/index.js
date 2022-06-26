@@ -7,7 +7,7 @@ import './text_field.css'
 const TextField = memo(({
                      label = '', classes = '', id = '', defaultValue = '', helperText = '',
                      variant = 'standard', type = 'text', name = '', isError = false,
-                     onChange = () => {},
+                     multiline = false, onChange = () => {}
                    }) =>
   <div className='text-field__wrapper'> <MuiTextField
     error={isError}
@@ -19,6 +19,8 @@ const TextField = memo(({
     helperText={helperText}
     type={type}
     onChange={onChange}
+    multiline={multiline}
+    minRows={3}
     variant={variant}/>
   </div>)
 

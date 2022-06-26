@@ -1,10 +1,9 @@
-import { memo } from 'react'
+import { memo, useEffect, useState } from 'react'
 
-import Button from '../../components/button'
 import { useAuth } from '../../api/auth'
+import { useMedicationApi } from '../../api/medication'
 import Table from '../../components/table'
 import AddMedicationDialog from '../../components/addMedicationDialog'
-import { useMedicationApi } from '../../api/medication'
 
 const theadArray = [
  { name: 'Name' },
@@ -16,15 +15,16 @@ const theadArray = [
 const HomePage = memo(() => {
  const auth = useAuth()
  const medicationApi = useMedicationApi({ userId: auth.getUserId() })
- const data = [{ name: 'lemon', description: 'Hello', initCount: 200, destinationCount: 50 },
-  { name: 'lemon', description: 'Hello', initCount: 200, destinationCount: 50 },
-  { name: 'lemon', description: 'Hello', initCount: 200, destinationCount: 50 },
-  { name: 'lemon', description: 'Hello', initCount: 200, destinationCount: 50 },
-  { name: 'lemon', description: 'Hello', initCount: 200, destinationCount: 50 },
-  { name: 'lemon', description: 'Hello', initCount: 200, destinationCount: 50 }]
+ const [medicationsList, setMedicationsList] = useState([])
+ useEffect(() => {
+  if (auth.getUserId() && medicationApi.isNeedUpdate) {
+   medicationApi.getMedicationsList().then(medications => setMedicationsList(medications))
+  }
+ }, [medicationApi.isNeedUpdate])
+
  return (
   <div>
-   <Table theadArray={theadArray} data={data}/>
+   <Table theadArray={theadArray} data={medicationsList}/>
    <AddMedicationDialog successApi={medicationApi.addNewMedication}/>
   </div>
  )
