@@ -1,13 +1,11 @@
-.footer {
-  min-height: 8vh;
+.header {
+  min-height: 10vh;
   box-sizing: border-box;
+
   display: flex;
   justify-content: space-around;
+  align-items: center;
 
   background-color: var(--primary-background-color);
-  border-top: 1px solid var(--border-color);
-}
-
-.footer__item {
-  font-size: 12px;
+  border-bottom: 1px solid var(--border-color);
 }

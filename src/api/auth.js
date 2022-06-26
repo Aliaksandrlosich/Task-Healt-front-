@@ -68,9 +68,10 @@ export const useAuth = () => {
   const removeUserId = () => {
     userId = undefined
     localStorage.removeItem('healthUserId')
+    localStorage.removeItem('healthUsername')
   }
 
   const isAuthorized = () => !!getUserId()
 
-  return { authorization, isAuthorized, registration, logout, loading }
+  return { authorization, isAuthorized, registration, logout, getUserId, loading }
 }

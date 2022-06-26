@@ -1,10 +1,10 @@
-import React from 'react'
+import { memo } from 'react'
 
 import './footer.css'
 
-const Footer = () => <footer className='footer'>
+const Footer = memo(() => <footer className='footer'>
   <p className='footer__item'>@Alexandr Losich</p>
   <p className='footer__item'>Health Task</p>
-</footer>
+</footer>)
 
 export default Footer

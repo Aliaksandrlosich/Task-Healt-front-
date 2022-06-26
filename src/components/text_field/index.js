@@ -1,15 +1,15 @@
-import React from 'react'
+import { memo } from 'react'
 import { PropTypes } from 'prop-types'
 import MuiTextField from '@mui/material/TextField'
 
 import './text_field.css'
 
-const TextField = ({
+const TextField = memo(({
                      label = '', classes = '', id = '', defaultValue = '', helperText = '',
                      variant = 'standard', type = 'text', name = '', isError = false,
                      onChange = () => {},
                    }) =>
-  <MuiTextField
+  <div className='text-field__wrapper'> <MuiTextField
     error={isError}
     className={classes}
     id={id}
@@ -20,6 +20,7 @@ const TextField = ({
     type={type}
     onChange={onChange}
     variant={variant}/>
+  </div>)
 
 TextField.propTypes = {
   label: PropTypes.string,
