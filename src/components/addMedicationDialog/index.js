@@ -16,11 +16,12 @@ const texts = {
  nameInputErrorText: 'Empty name'
 }
 
-const AddMedicationDialog = memo(({ successApi }) => {
+const AddMedicationDialog = memo(({
+ successApi,
+ medication = { name: '', description: '', initCount: 0, destinationCount: 0 }
+}) => {
  const [open, setOpen] = useState(false)
- const [form, setForm] = useState({
-  name: '', description: '', initCount: 0, destinationCount: 0
- })
+ const [form, setForm] = useState(medication)
  const [isNameInputError, setNameInputError] = useState(false)
  const title = texts.title
  const handleClose = () => {
@@ -28,8 +29,8 @@ const AddMedicationDialog = memo(({ successApi }) => {
  }
 
  const handleSuccess = async () => {
-  if(form.name) {
-   const result = await successApi({...form})
+  if (form.name) {
+   const result = await successApi({ ...form })
    setOpen(false)
   } else {
    setNameInputError(true)
@@ -47,22 +48,22 @@ const AddMedicationDialog = memo(({ successApi }) => {
    <Button text={texts.addButton} onClick={openDialog}/>
    <Dialog title={title} isOpen={open} handleClose={handleClose} handleSuccess={handleSuccess}>
     <div className="medication-dialog__content-wrapper" onChange={onChangeHandler}>
-    <TextField id={'addName'}
-               label={texts.name}
-               classes={'medication-dialog__text-field'}
-               name={'name'}
-               helperText={nameInputErrorText}
-               isError={isNameInputError}/>
-    <TextField id={'initCount'}
-               label={texts.initCount}
-               classes={'medication-dialog__text-field'}
-               type={'number'}
-               name={'initCount'}/>
-    <TextField id={'destinationCount'}
-               label={texts.destinationCount}
-               classes={'medication-dialog__text-field'}
-               type={'number'}
-               name={'destinationCount'}/>
+     <TextField id={'addName'}
+                label={texts.name}
+                classes={'medication-dialog__text-field'}
+                name={'name'}
+                helperText={nameInputErrorText}
+                isError={isNameInputError}/>
+     <TextField id={'initCount'}
+                label={texts.initCount}
+                classes={'medication-dialog__text-field'}
+                type={'number'}
+                name={'initCount'}/>
+     <TextField id={'destinationCount'}
+                label={texts.destinationCount}
+                classes={'medication-dialog__text-field'}
+                type={'number'}
+                name={'destinationCount'}/>
      <TextField id={'description'}
                 label={texts.description}
                 classes={'medication-dialog__text-field'}
