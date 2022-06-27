@@ -25,7 +25,7 @@ const theadArray = [
 
 const HomePage = memo(() => {
  const auth = useAuth()
- const medicationApi = useMedicationApi({ userId: auth.getUserId() })
+ const medicationApi = useMedicationApi({ userId: auth.getUserId(), unauthorizedCB: auth.unauthorizedCB })
  const [medicationsList, setMedicationsList] = useState([])
  useEffect(() => {
   if (auth.getUserId() && medicationApi.isNeedUpdate) {

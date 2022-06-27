@@ -15,7 +15,7 @@ const useRequest = () => {
       const data = await response.json()
 
       setLoading(false)
-      return data
+      return { status: response.status, ...data }
     } catch (error) {
       setLoading(false)
       setError(error.message)

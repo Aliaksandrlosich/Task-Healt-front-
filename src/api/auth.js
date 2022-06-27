@@ -71,7 +71,12 @@ export const useAuth = () => {
     localStorage.removeItem('healthUsername')
   }
 
+  const unauthorizedCB = () => {
+   removeUserId()
+   navigateToLogin()
+  }
+
   const isAuthorized = () => !!getUserId()
 
-  return { authorization, isAuthorized, registration, logout, getUserId, loading }
+  return { authorization, isAuthorized, registration, logout, getUserId, unauthorizedCB, loading }
 }

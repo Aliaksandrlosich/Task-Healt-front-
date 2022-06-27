@@ -6,8 +6,6 @@ import './table.css'
 import TableRow from './tableRow'
 
 const Table = memo(({ data = [], theadArray }) => {
- console.log(data)
-
  const rows = data.length > 0 && data.map((object) => {
   const correctCells = theadArray.map(pattern => {
    return [pattern.key, object[pattern.key]]

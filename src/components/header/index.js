@@ -14,7 +14,7 @@ const texts = {
 const Header = memo(() => {
  const auth = useAuth()
  const [username, setUsername] = useState('')
- const user = useUsersApi({ userId: auth.getUserId() })
+ const user = useUsersApi({ userId: auth.getUserId(), unauthorizedCB: auth.unauthorizedCB })
 
  useEffect(() => {
   if (auth.getUserId() && !username) {
