@@ -4,6 +4,7 @@ import { useState } from 'react'
 const apiURL = 'http://localhost:3001/api/medications'
 
 export const useMedicationApi = ({ userId, unauthorizedCB }) => {
+ console.log(userId)
  const { request, loading } = useRequest()
  const [isNeedUpdate, setIsNeedUpdate] = useState(true)
 

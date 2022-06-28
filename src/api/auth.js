@@ -39,7 +39,7 @@ export const useAuth = () => {
         return { isError: response.error, message: '' }
       } else {
         saveUserId(response.userId)
-        navigateToHome()
+       navigateToLogin()
         return { message: '' }
       }
     } catch (error) {
