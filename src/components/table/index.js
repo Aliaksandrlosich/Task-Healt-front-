@@ -5,14 +5,30 @@ import TableHead from './tableHead/index'
 import './table.css'
 import TableRow from './tableRow'
 import MedicationDialog from '../addMedicationDialog'
+import Button from '../button'
 
-const Table = memo(({ data = [], theadArray, updateMedication = ()=> {} }) => {
- const addButtonInLastCell = ({ cells, medication}) => {
+const texts = {
+ update: 'Update',
+ delete: 'Delete'
+}
+
+const Table = memo(({ data = [], theadArray, updateMedication = () => {}, deleteMedication = () => {} }) => {
+ const addButtonsInLastCell = ({ cells, medication }) => {
   const lastCorrectCellsIndex = cells.length - 1
-  cells[lastCorrectCellsIndex][1] = <MedicationDialog successApi={updateMedication} medication={medication}
-                                                             openButtonText={'Update'}/>
+  cells[lastCorrectCellsIndex][1] = <>
+   <MedicationDialog successApi={updateMedication} medication={medication}
+                     openButtonText={texts.update}/>
+   <Button onClick={(event) => onClickDeleteButton(event, medication.id)} text={texts.delete} variant={'text'}/>
+
+  </>
   return cells
  }
+
+ const onClickDeleteButton = async (event, id) => {
+  event.stopPropagation()
+  deleteMedication && await deleteMedication({ id })
+ }
+
  const rows = data.length > 0 && data.map((rawMedication) => {
   const medication = {
    name: rawMedication.name,
@@ -24,7 +40,7 @@ const Table = memo(({ data = [], theadArray, updateMedication = ()=> {} }) => {
   const cells = theadArray.map(pattern => {
    return [medication.key, medication[pattern.key]]
   })
-  const correctCells = addButtonInLastCell({ cells, medication })
+  const correctCells = addButtonsInLastCell({ cells, medication })
 
   return <TableRow key={medication.id} onClick={() => {}} data={correctCells} id={medication.id}/>
  })

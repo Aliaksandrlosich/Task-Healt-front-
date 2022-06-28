@@ -37,7 +37,8 @@ const MedicationDialog = memo(({
   }
  }
 
- const openDialog = () => {
+ const openDialog = (event) => {
+  event.stopPropagation()
   setOpen(true)
  }
 

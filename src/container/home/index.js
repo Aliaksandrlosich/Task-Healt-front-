@@ -13,7 +13,7 @@ const texts = {
  description: 'Description',
  initCount: 'Initial count',
  destinationCount: 'Destination count',
- detail: 'Detail'
+ detail: ''
 }
 
 const theadArray = [
@@ -39,7 +39,9 @@ const HomePage = memo(() => {
 
  return (
   <div className="home__page">
-   <Table theadArray={theadArray} data={medicationsList} updateMedication={medicationApi.updateMedication}/>
+   <Table theadArray={theadArray} data={medicationsList}
+          updateMedication={medicationApi.updateMedication}
+          deleteMedication={medicationApi.deleteMedication}/>
    {emptyMessage}
    <MedicationDialog successApi={medicationApi.addNewMedication}/>
   </div>

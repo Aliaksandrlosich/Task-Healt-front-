@@ -37,8 +37,18 @@ export const useMedicationApi = ({ userId, unauthorizedCB }) => {
    setIsNeedUpdate(true)
    return response
   }
-
  }
 
- return { addNewMedication, getMedicationsList, loading, updateMedication, isNeedUpdate }
+ const deleteMedication = async ({ id }) => {
+  const response = await request(`${apiURL}/${id}`, 'DELETE')
+
+  if (response.status === 401) {
+   unauthorizedCB()
+  } else {
+   setIsNeedUpdate(true)
+   return response
+  }
+ }
+
+ return { addNewMedication, getMedicationsList, loading, updateMedication, isNeedUpdate, deleteMedication }
 }
