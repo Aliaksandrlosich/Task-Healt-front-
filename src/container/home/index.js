@@ -3,7 +3,7 @@ import { memo, useEffect, useState } from 'react'
 import { useAuth } from '../../api/auth'
 import { useMedicationApi } from '../../api/medication'
 import Table from '../../components/table'
-import AddMedicationDialog from '../../components/addMedicationDialog'
+import MedicationDialog from '../../components/addMedicationDialog'
 
 import './home.css'
 
@@ -12,15 +12,17 @@ const texts = {
  name: 'Name',
  description: 'Description',
  initCount: 'Initial count',
- destinationCount: 'Destination count'
+ destinationCount: 'Destination count',
+ detail: 'Detail'
 }
 
 const theadArray = [
  { name: texts.id, key: 'id' },
  { name: texts.name, key: 'name' },
  { name: texts.description, key: 'description' },
- { name: texts.initCount, key: 'initcount' },
- { name: texts.destinationCount, key: 'destinationcount' },
+ { name: texts.initCount, key: 'initCount' },
+ { name: texts.destinationCount, key: 'destinationCount' },
+ { name: texts.detail, key: 'detail'}
 ]
 
 const HomePage = memo(() => {
@@ -37,9 +39,9 @@ const HomePage = memo(() => {
 
  return (
   <div className="home__page">
-   <Table theadArray={theadArray} data={medicationsList}/>
+   <Table theadArray={theadArray} data={medicationsList} updateMedication={medicationApi.updateMedication}/>
    {emptyMessage}
-   <AddMedicationDialog successApi={medicationApi.addNewMedication}/>
+   <MedicationDialog successApi={medicationApi.addNewMedication}/>
   </div>
  )
 })

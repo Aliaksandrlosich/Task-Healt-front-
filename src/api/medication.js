@@ -8,8 +8,8 @@ export const useMedicationApi = ({ userId, unauthorizedCB }) => {
  const [isNeedUpdate, setIsNeedUpdate] = useState(true)
 
  const addNewMedication = async ({ name, description = '', initCount = 0, destinationCount = 0 }) => {
-  const response = await request(`${apiURL}`, 'post', { name, description, initCount, destinationCount, userId })
-  if(response.status === 401) {
+  const response = await request(`${apiURL}`, 'POST', { name, description, initCount, destinationCount, userId })
+  if (response.status === 401) {
    unauthorizedCB()
   } else {
    setIsNeedUpdate(true)
@@ -18,8 +18,8 @@ export const useMedicationApi = ({ userId, unauthorizedCB }) => {
  }
 
  const getMedicationsList = async () => {
-  const response = await request(`${apiURL}/`, 'get', null, { user_id: userId })
-  if(response.status === 401) {
+  const response = await request(`${apiURL}/`, 'GET', null, { user_id: userId })
+  if (response.status === 401) {
    unauthorizedCB()
   } else {
    setIsNeedUpdate(false)
@@ -27,5 +27,18 @@ export const useMedicationApi = ({ userId, unauthorizedCB }) => {
   }
  }
 
- return { addNewMedication, getMedicationsList, loading, isNeedUpdate }
+ const updateMedication = async ({ name, description, initCount, destinationCount, id }) => {
+  const response = await request(`${apiURL}/${id}`, 'PATCH', {
+   name, description, initCount, destinationCount
+  })
+  if (response.status === 401) {
+   unauthorizedCB()
+  } else {
+   setIsNeedUpdate(true)
+   return response
+  }
+
+ }
+
+ return { addNewMedication, getMedicationsList, loading, updateMedication, isNeedUpdate }
 }

@@ -16,11 +16,11 @@ const texts = {
  nameInputErrorText: 'Empty name'
 }
 
-const AddMedicationDialog = memo(({
- successApi,
- medication = { name: '', description: '', initCount: 0, destinationCount: 0 }
+const MedicationDialog = memo(({
+ successApi, isOpen, openButtonText = texts.addButton,
+ medication = { name: '', description: '', initCount: 0, destinationCount: 0, id: undefined }
 }) => {
- const [open, setOpen] = useState(false)
+ const [open, setOpen] = useState(isOpen)
  const [form, setForm] = useState(medication)
  const [isNameInputError, setNameInputError] = useState(false)
  const title = texts.title
@@ -45,7 +45,7 @@ const AddMedicationDialog = memo(({
  const nameInputErrorText = isNameInputError ? texts.nameInputErrorText : ''
  return (
   <>
-   <Button text={texts.addButton} onClick={openDialog}/>
+   <Button text={openButtonText} onClick={openDialog}/>
    <Dialog title={title} isOpen={open} handleClose={handleClose} handleSuccess={handleSuccess}>
     <div className="medication-dialog__content-wrapper" onChange={onChangeHandler}>
      <TextField id={'addName'}
@@ -53,22 +53,26 @@ const AddMedicationDialog = memo(({
                 classes={'medication-dialog__text-field'}
                 name={'name'}
                 helperText={nameInputErrorText}
-                isError={isNameInputError}/>
+                isError={isNameInputError}
+                defaultValue={medication.name}/>
      <TextField id={'initCount'}
                 label={texts.initCount}
                 classes={'medication-dialog__text-field'}
                 type={'number'}
-                name={'initCount'}/>
+                name={'initCount'}
+                defaultValue={medication.initCount}/>
      <TextField id={'destinationCount'}
                 label={texts.destinationCount}
                 classes={'medication-dialog__text-field'}
                 type={'number'}
-                name={'destinationCount'}/>
+                name={'destinationCount'}
+                defaultValue={medication.destinationCount}/>
      <TextField id={'description'}
                 label={texts.description}
                 classes={'medication-dialog__text-field'}
                 name={'description'}
-                multiline={true}/>
+                multiline={true}
+                defaultValue={medication.description}/>
     </div>
    </Dialog>
   </>
@@ -76,4 +80,4 @@ const AddMedicationDialog = memo(({
 
 })
 
-export default AddMedicationDialog
+export default MedicationDialog
