@@ -13,7 +13,7 @@ const texts = {
  description: 'Description',
  initCount: 'Initial count',
  destinationCount: 'Destination count',
- detail: ''
+ actions: 'Actions'
 }
 
 const theadArray = [
@@ -22,7 +22,7 @@ const theadArray = [
  { name: texts.description, key: 'description' },
  { name: texts.initCount, key: 'initCount' },
  { name: texts.destinationCount, key: 'destinationCount' },
- { name: texts.detail, key: 'detail'}
+ { name: texts.actions, key: 'actions' }
 ]
 
 const HomePage = memo(() => {

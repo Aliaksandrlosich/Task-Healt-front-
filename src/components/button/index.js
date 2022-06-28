@@ -4,11 +4,13 @@ import MuiButton from '@mui/material/Button'
 
 import './button.css'
 
-const Button = memo(({ classes = '', variant = 'contained', onClick = () => {}, text = 'Button' }) =>
+const Button = memo(({ classes = '', size='medium', dataType, variant = 'contained', onClick = () => {}, text = 'Button' }) =>
  <div className="button__wrapper">
   <MuiButton
    variant={variant}
    className={classes}
+   size={size}
+   data-type={dataType}
    onClick={onClick}>
    {text}
   </MuiButton>
